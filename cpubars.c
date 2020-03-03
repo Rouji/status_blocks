@@ -38,15 +38,7 @@ struct jiffies{
 
 void sighandler(int sig)
 {
-    switch(sig)
-    {
-        case SIGINT:
-        case SIGKILL:
-        case SIGABRT:
-            run = 0;
-        default:
-            break;
-    }
+    run = 0;
 }
 
 //parse a cpu line from /proc/stat and calc total, busy jiffies
@@ -93,6 +85,9 @@ int main(int argc, char** argv)
     int overall_perc = 0;
 
     signal(SIGINT, sighandler);
+    signal(SIGKILL, sighandler);
+    signal(SIGABRT, sighandler);
+
     int i;
     int bar_char_idx;
     while (run)

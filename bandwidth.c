@@ -10,15 +10,7 @@ int volatile run = 1;
 
 void sighandler(int sig)
 {
-    switch(sig)
-    {
-        case SIGINT:
-        case SIGKILL:
-        case SIGABRT:
-            run = 0;
-        default:
-            break;
-    }
+    run = 0;
 }
 
 int read_bytes(const char* path)
@@ -81,6 +73,8 @@ int main(int argc, char** argv)
     int rt_pos = strlen(stat_path) - 8;
 
     signal(SIGINT, sighandler);
+    signal(SIGKILL, sighandler);
+    signal(SIGABRT, sighandler);
 
     unsigned int last_rx = 0, last_tx = 0;
     unsigned int curr_rx = 0, curr_tx = 0;
