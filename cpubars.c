@@ -93,9 +93,14 @@ int main(int argc, char** argv)
     while (run)
     {
         get_cpu_times(curr);
+
+        if (curr[0].total == last[0].total)
+            continue;
         printf("%llu%% ", ((curr[0].busy - last[0].busy) * 100)/(curr[0].total - last[0].total));
         for (i=1; i<cpu_count; ++i)
         {
+            if (curr[i].total == last[i].total)
+                continue;
             bar_char_idx = ((curr[i].busy - last[i].busy) * (bar_chars_count-1))/(curr[i].total - last[i].total);
             printf("%s", bar_chars[bar_char_idx]);
         }
