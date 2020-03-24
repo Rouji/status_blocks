@@ -16,6 +16,7 @@ static const char* bar_chars[] = {"▁", "▂", "▃", "▄", "▅", "▆", "▇
 #else
 static const char* bar_chars[] = {"▁", "▂", "▃", "▄", "▅", "▆", "<span foreground=\""COL_HIGH"\">▇</span>", "<span foreground=\""COL_MAX"\">█</span>"};
 #endif
+
 static const int bar_chars_count = 8;
 static const char* stat_path = "/proc/stat";
 static int volatile run = 1;
@@ -35,6 +36,11 @@ struct jiffies{
     unsigned long long softirq;
     unsigned long long steal;
 };
+
+int clamp(int val, int min, int max)
+{
+    return val < min ? min : (val > max ? max : val);
+}
 
 void sighandler(int sig)
 {
@@ -101,7 +107,7 @@ int main(int argc, char** argv)
         {
             if (curr[i].total == last[i].total)
                 continue;
-            bar_char_idx = ((curr[i].busy - last[i].busy) * (bar_chars_count-1))/(curr[i].total - last[i].total);
+            bar_char_idx = clamp(((curr[i].busy - last[i].busy) * (bar_chars_count-1))/(curr[i].total - last[i].total), 0, bar_chars_count-1);
             printf("%s", bar_chars[bar_char_idx]);
         }
         printf("\n");
