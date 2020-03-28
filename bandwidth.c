@@ -85,11 +85,13 @@ int main(int argc, char** argv)
     {
         up = is_up(oper_path);
         if (up == -1)
+        {
             goto not_found;
-        if (!up)
+        }
+        else if (up == 0)
         {
             printf("%s down\n", interface);
-            continue;
+            goto cont;
         }
 
         stat_path[rt_pos] = 'r';
@@ -111,6 +113,7 @@ int main(int argc, char** argv)
         last_rx = curr_rx;
         last_tx = curr_tx;
 
+    cont:
         sleep(sleep_sec);
     }
 
