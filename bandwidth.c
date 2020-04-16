@@ -91,6 +91,7 @@ int main(int argc, char** argv)
         else if (up == 0)
         {
             printf("%s down\n", interface);
+            fflush(stdout);
             goto cont;
         }
 
