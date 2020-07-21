@@ -88,8 +88,6 @@ int main(int argc, char** argv)
     struct cpu_time* last = malloc(cpu_time_size);
     memset(last, 0, cpu_time_size);
 
-    int overall_perc = 0;
-
     signal(SIGINT, sighandler);
     signal(SIGKILL, sighandler);
     signal(SIGABRT, sighandler);
